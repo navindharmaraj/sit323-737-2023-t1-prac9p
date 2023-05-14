@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: contactsapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: contactsapp
+  template:
+    metadata:
+      labels:
+        app: contactsapp
+    spec:
+      containers:
+        - name: contactsapp
+          image: gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:latest
+          ports:
+            - containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 5
