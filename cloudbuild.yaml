@@ -6,4 +6,12 @@ steps:
     args: ['push', 'gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:$COMMIT_SHA']
 
   - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['apply', '-f', 'deployment.yaml']
+    entrypoint: 'bash'
+    env:
+      - 'CLOUDSDK_COMPUTE_REGION=us-central1'
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=mongo-cluster'
+    args:
+      - '-c'
+      - |
+        kubectl apply -f deployment.yaml
