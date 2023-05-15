@@ -1,17 +1,22 @@
 steps:
+ # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:$COMMIT_SHA', '.']
-
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:$COMMIT_SHA']
-
-  - name: 'gcr.io/cloud-builders/kubectl'
-    entrypoint: 'bash'
-    env:
-      - 'CLOUDSDK_COMPUTE_REGION=us-central1'
-      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
-      - 'CLOUDSDK_CONTAINER_CLUSTER=mongo-cluster'
     args:
-      - '-c'
-      - |
-        gcloud container clusters get-credentials mongo-cluster --zone us-central1-a --project sit737-23t1-dharmaraja-5f2a74e && kubectl apply -f deployment.yaml
+      - 'build'
+      - '-t'
+      - 'gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:$COMMIT_SHA'
+      - '.'
+
+  # Push container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:$COMMIT_SHA'
+
+  # Deploy container image to GKE
+  - name: "gcr.io/cloud-builders/gke-deploy"
+    args:
+      - "run"
+      - "--filename=deployment.yaml"
+      - "--location=us-central1-a"
+      - "--cluster=mongo-cluster"
