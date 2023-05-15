@@ -1,11 +1,11 @@
 steps:
   # Build the container image
   - name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "gcr.io/project-id/image:tag", "."]
+    args: ["build", "-t", "gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:$COMMIT_SHA", "."]
 
   # Push container image
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/project-id/image:tag"]
+    args: ["push", "gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:$COMMIT_SHA"]
 
   # Configure cluster credentials
   - name: "gcr.io/cloud-builders/kubectl"
