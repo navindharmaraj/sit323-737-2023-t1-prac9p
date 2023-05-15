@@ -6,9 +6,4 @@ steps:
     args: ['push', 'gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:$COMMIT_SHA']
 
   - name: 'gcr.io/cloud-builders/kubectl'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        gcloud container clusters get-credentials mongo-cluster --zone us-central1-a --project sit737-23t1-dharmaraja-5f2a74e
-        kubectl set image deployment/contactsapp contactsapp=gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:$COMMIT_SHA
+    args: ['apply', '-f', 'deployment.yaml']
