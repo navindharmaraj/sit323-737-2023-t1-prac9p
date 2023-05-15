@@ -1,32 +1,23 @@
 steps:
-  # Build the container image
-  - name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:$COMMIT_SHA", "."]
+ # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:$COMMIT_SHA'
+      - '.'
 
   # Push container image
-  - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:$COMMIT_SHA"]
-
-  # Configure cluster credentials
-  - name: "gcr.io/cloud-builders/kubectl"
+  - name: 'gcr.io/cloud-builders/docker'
     args:
-      - "get-credentials"
-      - "mongo-cluster"
-      - "--region=us-central1"
-      - "--project=sit737-23t1-dharmaraja-5f2a74e"
-
-  # Delete existing pods
-  - name: "gcr.io/cloud-builders/kubectl"
-    args:
-      - "delete"
-      - "pods"
-      - "-l"
-      - "app=contas"
-
-  # Deploy container image to GKE
+      - 'push'
+      - 'gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:$COMMIT_SHA'
+  
+  # Deploy container image to GKE and delete existing pods
   - name: "gcr.io/cloud-builders/gke-deploy"
     args:
       - "run"
       - "--filename=deployment.yaml"
       - "--location=us-central1-a"
       - "--cluster=mongo-cluster"
+
