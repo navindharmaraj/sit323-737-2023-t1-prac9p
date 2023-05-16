@@ -20,4 +20,5 @@ steps:
       - "--filename=deployment.yaml"
       - "--location=us-central1-a"
       - "--cluster=mongo-cluster"
+      - "--kubectl=delete,pods,-l,app=contactsapp"
 
