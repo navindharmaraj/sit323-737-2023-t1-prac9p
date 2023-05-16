@@ -4,6 +4,8 @@ const MongoClient = require('mongodb').MongoClient
 var ObjectId = require('mongodb').ObjectId;
 const winston = require('winston');
 const { LoggingWinston } = require('@google-cloud/logging-winston');
+const promBundle = require('express-prom-bundle');
+const metricsMiddleware = promBundle({ includeMethod: true });
 const app = express();
 const port = 3000;
 
@@ -23,7 +25,7 @@ app.set('view engine', 'ejs');
 //const uri = "mongodb+srv://dbuser666:sit725DataUser@cluster0.q6kyg.mongodb.net/?retryWrites=true&w=majority";  --dev db
 const uri = 'mongodb://mongo-0.mongo:27017,mongo-1.mongo:27017,mongo-2.mongo:27017/?replicaSet=rs0';   //-- prod db
 const client = new MongoClient(uri, { useNewUrlParser: true });
-
+app.use(metricsMiddleware);
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
@@ -33,6 +35,11 @@ app.use(express.urlencoded({ extended: false }));
 // Health Check Endpoint
 app.get('/health', (req, res) => {
   res.sendStatus(200);
+});
+
+app.get('/metrics', (req, res) => {
+  res.set('Content-Type', metricsMiddleware.metricsContentType);
+  res.end(metricsMiddleware.metrics());
 });
 
 // Login route
