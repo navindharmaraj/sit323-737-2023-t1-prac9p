@@ -2,9 +2,20 @@ const express = require('express');
 var bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient
 var ObjectId = require('mongodb').ObjectId;
+const winston = require('winston');
+const { LoggingWinston } = require('@google-cloud/logging-winston');
 const app = express();
 const port = 3000;
 
+const loggingWinston = new LoggingWinston();
+
+const logger = winston.createLogger({
+  level: 'info',
+  transports: [
+    new winston.transports.Console(),
+    loggingWinston,
+  ],
+});
 // Set the view engine
 app.set('view engine', 'ejs');
 
@@ -30,9 +41,11 @@ app.get('/', async(req, res) => {
   try {
     await client.connect();
     const db = client.db('contacts');
+    logger.info('Connected to Database');
     const collectionData = await db.collection('users').find({}).toArray();
     res.render('contacts', { contacts: collectionData });
   } catch (error) {
+    logger.error('Error fetching contacts:', error);
     console.error('Error fetching contacts:', error);
     res.sendStatus(500);
   }
@@ -45,8 +58,10 @@ app.post('/login', (req, res) => {
   // Check if the credentials are correct
   if (username === 'admin' && password === 'password') {
     // Redirect to the contacts page upon successful login
+    logger.log('Sucessful Login');
     res.redirect('/contacts');
   } else {
+    logger.error('Invalid credentials. Please try again.');
     res.send('Invalid credentials. Please try again.');
   }
 });
@@ -59,6 +74,7 @@ app.get('/contacts', async (req, res) => {
     const collectionData = await db.collection('users').find({}).toArray();
     res.render('contacts', { contacts: collectionData });
   } catch (error) {
+    logger.error('Error fetching contacts:', error);
     console.error('Error fetching contacts:', error);
     res.sendStatus(500);
   }
