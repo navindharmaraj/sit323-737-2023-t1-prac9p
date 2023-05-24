@@ -1,17 +1,17 @@
 steps:
- # Build the container image
+ # Build the container image $COMMIT_SHA'
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
       - '-t'
-      - 'gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:$COMMIT_SHA'
+      - 'gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:1'
       - '.'
 
   # Push container image
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - 'gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:$COMMIT_SHA'
+      - 'gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:1'
   
   # Deploy container image to GKE and delete existing pods
   - name: "gcr.io/cloud-builders/gke-deploy"
