@@ -29,6 +29,12 @@ spec:
               port: 3000
             initialDelaySeconds: 10
             periodSeconds: 5
+          resources:  # New field
+            requests:
+              cpu: "100m"  # Requesting 100 milliCPU units
+            limits:
+              cpu: "500m"  # Limiting to 500 milliCPU units
+
 ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
