@@ -5,11 +5,7 @@ const loginSubmitForm = async () => {
     console.log(formData)
     var logindata = await checkIsValid(formData);
     console.log(logindata)
-    if (logindata.statusCode == 200 && logindata.message == "Success" && logindata.data.type == 0) {
-        window.location.href = "/customer";
-
-    }
-    else if (logindata.statusCode == 200 && logindata.message == "Success" && logindata.data.type == 1){
+    if (logindata.statusCode == 200 && logindata.message == "Success"){
         window.location.href = "/admin";
     }
    else{alert('Incorrect Username or Password')}
