@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: contactsapp
-          image: gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:2
+          image: gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:3
           ports:
             - containerPort: 3000
           livenessProbe:
@@ -29,7 +29,7 @@ spec:
               port: 3000
             initialDelaySeconds: 10
             periodSeconds: 5
-          resources:  # New field
+          resources:
             requests:
               cpu: "100m"  # Requesting 100 milliCPU units
             limits:

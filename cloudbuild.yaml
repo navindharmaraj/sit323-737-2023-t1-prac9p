@@ -1,17 +1,26 @@
 steps:
- # Build the container image $COMMIT_SHA'
+  # Install dependencies
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['install']
+    
+  # Run tests
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['test']
+    id: Run Tests
+
+  # Build the container image $COMMIT_SHA
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
       - '-t'
-      - 'gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:2'
+      - 'gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:3'
       - '.'
 
   # Push container image
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - 'gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:2'
+      - 'gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:3'
   
   # Deploy container image to GKE and delete existing pods
   - name: "gcr.io/cloud-builders/gke-deploy"
@@ -20,5 +29,3 @@ steps:
       - "--filename=deployment.yaml"
       - "--location=us-central1-a"
       - "--cluster=mongo-cluster"
-
-
