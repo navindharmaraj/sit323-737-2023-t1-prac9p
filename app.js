@@ -9,10 +9,9 @@ const { LoggingWinston } = require('@google-cloud/logging-winston');
 const promBundle = require('express-prom-bundle');
 const metricsMiddleware = promBundle({ includeMethod: true });
 const port = 3000;
-
+app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-// parse application/json
-app.use(bodyParser.json())
+
 var userCount = require('./controller/login_controller')
 
 var loginRouter = require('./route/loginRoute')
@@ -59,7 +58,7 @@ app.use(cors({
     origin: '*'
 }));
 app.use(metricsMiddleware);
-app.use(express.json())
+
 // Health Check Endpoint
 app.get('/health', (req, res) => {
   res.sendStatus(200);
