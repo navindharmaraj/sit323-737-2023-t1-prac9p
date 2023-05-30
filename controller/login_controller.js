@@ -15,7 +15,7 @@ exports.checkIsValidUser = async function (req, res, nxt) {
     try {
         var userName = req.body.userName;
         var password = req.body.password;
-       
+        console.log("Username: " + userName)
         var getUserData = await db.getUser(userName);
      console.log(getUserData)
         if (getUserData.length == 1) {
