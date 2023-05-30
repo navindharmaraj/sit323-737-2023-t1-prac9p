@@ -9,10 +9,11 @@ const { LoggingWinston } = require('@google-cloud/logging-winston');
 const promBundle = require('express-prom-bundle');
 const metricsMiddleware = promBundle({ includeMethod: true });
 const port = 3000;
-app.use(bodyParser.json())
 
+
+app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
-
+app.use(express.json())
 var userCount = require('./controller/login_controller')
 
 var loginRouter = require('./route/loginRoute')
