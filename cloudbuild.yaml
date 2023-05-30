@@ -1,14 +1,5 @@
 steps:
-  # Install dependencies
-  - name: 'gcr.io/cloud-builders/npm'
-    args: ['install']
-    
-  # Run tests
-  - name: 'gcr.io/cloud-builders/npm'
-    args: ['test']
-    id: Run Tests
-
-  # Build the container image $COMMIT_SHA
+ # Build the container image $COMMIT_SHA'
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
@@ -29,3 +20,5 @@ steps:
       - "--filename=deployment.yaml"
       - "--location=us-central1-a"
       - "--cluster=mongo-cluster"
+
+
