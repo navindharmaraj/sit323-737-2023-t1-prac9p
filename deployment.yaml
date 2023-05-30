@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: contactsapp
-          image: gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:3
+          image: gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:4
           ports:
             - containerPort: 3000
           livenessProbe:
