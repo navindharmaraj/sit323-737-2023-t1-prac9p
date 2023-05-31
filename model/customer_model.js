@@ -1,7 +1,17 @@
+require('dotenv').config();
 const MongoClient = require('mongodb').MongoClient
 var ObjectId = require('mongodb').ObjectId; 
- //const uri = "mongodb+srv://dbuser666:sit725DataUser@cluster0.q6kyg.mongodb.net/?retryWrites=true&w=majority"; // --dev db
-const uri = 'mongodb://mongo-0.mongo:27017,mongo-1.mongo:27017,mongo-2.mongo:27017/?replicaSet=rs0';   //-- prod db
+
+
+const devDbUri = process.env.DEV_DB_URI;
+const prodDbUri = process.env.PROD_DB_URI;
+
+let uri;
+if (process.env.NODE_ENV === 'production') {
+  uri = process.env.DB_URI || prodDbUri;
+} else {
+  uri = process.env.DB_URI || devDbUri;
+}
 const dbclient = new MongoClient(uri, { useNewUrlParser: true });
 
 exports.addCollection = async function (collectionName, dataObj) {

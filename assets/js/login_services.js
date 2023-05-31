@@ -4,6 +4,7 @@ const loginSubmitForm = async () => {
     formData.password = $('#floatingPassword').val();
     console.log(formData)
     var logindata = await checkIsValid(formData);
+    console.log("logindata")
     console.log(logindata)
     if (logindata.statusCode == 200 && logindata.message == "Success"){
         window.location.href = "/admin";

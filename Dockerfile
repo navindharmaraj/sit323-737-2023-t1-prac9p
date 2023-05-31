@@ -1,6 +1,13 @@
 # Use an official Node.js runtime as the base image
 FROM node:14
 
+# Set the NODE_ENV environment variable
+ENV NODE_ENV=production
+
+# Set the DB_URI environment variable
+ENV DB_URI=mongodb://mongo-0.mongo:27017,mongo-1.mongo:27017,mongo-2.mongo:27017/?replicaSet=rs0
+
+
 # Set the working directory in the container
 WORKDIR /app
 
