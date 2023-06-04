@@ -4,14 +4,14 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:7'
+      - 'gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:8'
       - '.'
 
   # Push container image
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - 'gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:7'
+      - 'gcr.io/sit737-23t1-dharmaraja-5f2a74e/contactsapp:8'
   
   # Deploy container image to GKE and delete existing pods
   - name: "gcr.io/cloud-builders/gke-deploy"
